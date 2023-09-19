@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Landing Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="w-3/4 bg-white p-8 rounded-lg shadow-md">
+            <h1 class="text-3xl font-semibold mb-4">Bienvenido!</h1>
+            <p class="text-gray-600 mb-8">Envía correos en segundo plano con Django</p>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="correo" class="block text-gray-600 text-sm font-semibold mb-2">Correo Electronico:</label>
+                    <input type="email" id="email" name="email" class="border rounded w-full py-2 px-3" required>
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full"> Enviar Correo
+                </button>
+            </form>
+            {% if mail_sent %}
+            <p class="mt-5 text-base text-slate-400">Correo enviado exitosamente</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
