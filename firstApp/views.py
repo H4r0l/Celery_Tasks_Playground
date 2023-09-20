@@ -9,7 +9,7 @@ def index(request):
         email = request.POST.get('email')
         send_mail(email)
         mail_sent = True
-    
+
     return render(request, 'index.html',{
         'mail_sent': mail_sent
     })
