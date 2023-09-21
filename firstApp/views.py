@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .tasks import send_mail
+from .tasks import send_mail, async_send_mail
 
 # Create your views here.
 def index(request):
@@ -7,7 +7,8 @@ def index(request):
 
     if request.method == 'POST':
         email = request.POST.get('email')
-        send_mail(email)
+        async_send_mail(email)
+
         mail_sent = True
 
     return render(request, 'index.html',{
