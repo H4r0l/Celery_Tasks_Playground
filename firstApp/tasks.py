@@ -1,10 +1,5 @@
-import time
-from threading import Thread
+from celery import shared_task
 
-def async_send_mail(to):
-    task = Thread(target=send_mail, args=(to,))
-    task.start()
-
+@shared_task
 def send_mail(to):
-    time.sleep(2)
-    print(">>> Hemos enviado el Mail")
+    print(f">>> Hemos enviado el Mail a: {to}")

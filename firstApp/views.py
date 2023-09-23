@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from .tasks import send_mail, async_send_mail
+from .tasks import send_mail
+from datetime import datetime
+from datetime import timedelta
 
 # Create your views here.
 def index(request):
@@ -7,7 +9,10 @@ def index(request):
 
     if request.method == 'POST':
         email = request.POST.get('email')
-        async_send_mail(email)
+        send_mail.apply_async(
+            args=[email],
+            eta=datetime.now()+ timedelta(seconds=5)
+        )
 
         mail_sent = True
 
