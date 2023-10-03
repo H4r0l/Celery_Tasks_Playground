@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from .tasks import send_mail
+from .tasks import send_mail, send_welcome_mail, send_subscription_mail
+
 from datetime import datetime
 from datetime import timedelta
+
+from celery import chain
 
 # Create your views here.
 def index(request):
@@ -9,9 +12,14 @@ def index(request):
 
     if request.method == 'POST':
         email = request.POST.get('email')
-        send_mail.apply_async(
-            args=[email],
-            eta=datetime.now()+ timedelta(seconds=5)
+
+        tasks = chain(
+            send_mail.s(email),
+            send_welcome_mail.s(),
+            send_subscription_mail.s(),
+        )
+        tasks.apply_async(
+            countdown=5,
         )
 
         mail_sent = True
